@@ -6,6 +6,7 @@ const Popup = () => {
 
     const inputRef = useRef();
     const [answer, setAnswer] = useState("")
+    const [relevant, setRelevant] = useState("")
     console.log("Hello from popup");
 
     const onClickSubmit = async (event) => {
@@ -47,14 +48,15 @@ const Popup = () => {
                     axios(config)
                         .then(function (response) {
                             console.log("API Response", JSON.stringify(response.data));
-                            const answerStart = response.data.snippet.start
-                            const answerEnd = response.data.snippet.start + response.data.snippet.length
-                            console.log("Answer start: ", document.slice(answerStart, answerEnd));
+                            let answerData = response.data.answer.split("Relevant text:")[0];
+                            const relevantData = response.data.answer.split("Relevant text:")[1];
+                            answerData = answerData.replace("Answer: ", "");
                             port.postMessage({
-                                answer: response.data,
+                                answer: { ...response.data.snippet, document},
                                 tabId: activeTab.id
                             });
-                            setAnswer(response.data.answer)
+                            setAnswer(answerData)
+                            setRelevant(relevantData)
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -73,7 +75,10 @@ const Popup = () => {
             <img src="https://uploads-ssl.webflow.com/63243fca0c3f22499600fd48/63dd206afa80fe9af8d5f1b6_Midpage%20logo.png" className="Extension-header" alt="midpage.ai"/>
             <textarea className="User-input" id="user-query" name="query" rows="4" cols="30" ref={inputRef}/>
             <button className="Submit-button" id="submit" onClick={onClickSubmit}>Submit</button>
-            { answer !== "" && <p className="Midpage-response" id="answer"><strong>Answer: </strong>{answer}</p>}
+            <div className="Response-container">
+                { answer !== "" && <p className="Midpage-response" id="answer"><strong>Answer: </strong>{answer}</p>}
+                { relevant !== "" && <p className="Midpage-response" id="relevant"><strong>Relevant text: </strong>{relevant}</p>}
+            </div>
         </div>
       );
 };
