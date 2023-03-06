@@ -1,7 +1,14 @@
 {
-  "name": "Chrome Extension with React & Webpack",
-  "description": "A chrome extension boilerplate built with React 17, Webpack 5, and Webpack Dev Server 4",
+  "name": "Midpage.ai",
+  "description": "Midpage.ai is a question-answering system that provides answers to questions that are relevant to current tab.",
   "options_page": "options.html",
+  "permissions": [
+    "activeTab",
+    "<all_urls",
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+  ],
   "background": {
     "page": "background.html"
   },

@@ -7,7 +7,12 @@
   text-align: center;
   height: 100%;
   padding: 10px;
-  background-color: #282c34;
+  background-color: #ebedf0;
+  font-family: 'Inter';
+  font: 400 12px/1.5 'Inter';
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App-logo {
@@ -33,6 +38,40 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.Midpage-response {
+  justify-content: flex-start;
+  margin-left: 10px;
+  font-family: 'Inter';
+}
+
+.User-input {
+  border: 3px solid #ccc;
+  border-radius: 10px;
+}
+
+.Submit-button {
+  margin-top: 5px;
+  border-radius: 10px;
+  background-color: #000000; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width: fit-content;
+}
+
+.Extension-header {
+    width: 50%;
+    height: 15%;
+    margin-bottom: 10px;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
 }
 
 @keyframes App-logo-spin {

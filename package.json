@@ -1,7 +1,7 @@
 {
-  "name": "chrome-extension-boilerplate-react",
+  "name": "midpage-ai",
   "version": "4.3.5",
-  "description": "A chrome extension boilerplate built with React 17, Webpack 5, and Webpack Dev Server 4 (MV2)",
+  "description": "A chrome extension from Midpage.ai to answer questions based on data from current tab",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@hot-loader/react-dom": "^17.0.2",
+    "axios": "^1.3.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hot-loader": "^4.13.0"
