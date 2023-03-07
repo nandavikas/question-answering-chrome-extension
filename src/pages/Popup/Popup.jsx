@@ -95,7 +95,7 @@ const Popup = () => {
             </div>)}
             <div className="Response-container">
                 { answer !== "" && <p className="Midpage-response" id="answer"><strong>Answer: </strong>{answer}</p>}
-                { relevant !== "" && <p className="Midpage-response" id="relevant"><strong>Relevant text: </strong>{relevant}</p>}
+                { relevant !== "" && <p className="Midpage-response" id="relevant"><strong>Relevant Section: </strong>{relevant}</p>}
             </div>
         </div>
       );

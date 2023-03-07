@@ -7,14 +7,13 @@
   left: 0px;
   right: 0px;
   text-align: center;
-  height: 100%;
+  height: auto;
+  max-height: 100%;
   padding: 10px;
   background-color: #ffffff;
-  /*font: 400 12px/1.5 'Inter';*/
-  display: flex;
+  display: inline-block;
   flex-direction: column;
   align-items: center;
-  overflow-y: scroll;
 }
 
 .App-logo {
@@ -43,13 +42,15 @@
 }
 
 .Response-container {
-  overflow: scroll;
+  overflow-y: auto;
+  height: 'fit-content';
 }
 
 .Midpage-response {
   margin-left: 10px;
   font-size: 12px;
   font-family: Inter;
+  text-align: left;
 }
 
 .User-input {
@@ -64,7 +65,7 @@
   margin-top: 5px;
   margin-bottom: 0px;
   border-radius: 6px;
-  background-color: #000000; /* Green */
+  background-color: #373837;
   border: none;
   color: white;
   padding: 8px 16px;
@@ -74,6 +75,12 @@
   font-family: 'Inter';
   font-size: 16px;
   width: fit-content;
+}
+
+.Submit-button:hover {
+  background-color: #000000;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  cursor: pointer;
 }
 
 .Extension-header {
