@@ -20,12 +20,14 @@ const Popup = () => {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             const activeTab = tabs[0];
             console.log("Active tab: ", activeTab.id);
+            console.log("Current tab URL: ", activeTab.url)
             const port = chrome.tabs.connect(activeTab.id, {
                 name: "midpage"
             });
 
+            const divId = activeTab.url.includes("courtlistener.com") ? "opinion-content" : "caseBodyHtml";
             port.postMessage({
-                divId: "opinion-content",
+                divId: divId,
                 tabId: activeTab.id
             });
 
@@ -58,9 +60,9 @@ const Popup = () => {
                             const relevantData = response.data.answer.split("Relevant text:")[1];
                             answerData = answerData.replace("Answer: ", "");
                             port.postMessage({
+                                divId,
                                 answer: { ...response.data.snippet, document},
                                 relevantText: relevantData,
-                                tabId: activeTab.id
                             });
                             setLoading(false);
                             setAnswer(answerData)
