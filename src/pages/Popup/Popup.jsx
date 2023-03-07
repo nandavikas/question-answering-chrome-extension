@@ -7,10 +7,14 @@ const Popup = () => {
     const inputRef = useRef();
     const [answer, setAnswer] = useState("")
     const [relevant, setRelevant] = useState("")
+    const [loading, setLoading] = useState(false)
     console.log("Hello from popup");
 
     const onClickSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true)
+        setAnswer("")
+        setRelevant("")
         // Open up connection with content script
         console.log("Connecting to content script...")
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -39,7 +43,7 @@ const Popup = () => {
                     const config = {
                         method: 'post',
                         maxBodyLength: Infinity,
-                        url: 'https://e575-34-28-101-179.ngrok.io/predict/question/',
+                        url: 'https://3422-34-28-101-179.ngrok.io/predict/question/',
                         headers: {
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
@@ -49,7 +53,7 @@ const Popup = () => {
 
                     axios(config)
                         .then(function (response) {
-                            console.log("API Response", JSON.stringify(response.data));
+                            console.log("API Response", response.data);
                             let answerData = response.data.answer.split("Relevant text:")[0];
                             const relevantData = response.data.answer.split("Relevant text:")[1];
                             answerData = answerData.replace("Answer: ", "");
@@ -58,10 +62,13 @@ const Popup = () => {
                                 relevantText: relevantData,
                                 tabId: activeTab.id
                             });
+                            setLoading(false);
                             setAnswer(answerData)
                             setRelevant(relevantData)
                         })
                         .catch(function (error) {
+                            setLoading(false);
+                            setAnswer("Sorry, we couldn't find an answer to your question.")
                             console.log(error);
                         });
 
@@ -79,6 +86,13 @@ const Popup = () => {
                 <textarea className="User-input" id="user-query" name="query" rows="4" cols="30" ref={inputRef}/>
                 <button className="Submit-button" id="submit" type="submit">Submit</button>
             </form>
+            { loading && (<div className="ticontainer">
+                <div className="tiblock">
+                    <div className="tidot"></div>
+                    <div className="tidot"></div>
+                    <div className="tidot"></div>
+                </div>
+            </div>)}
             <div className="Response-container">
                 { answer !== "" && <p className="Midpage-response" id="answer"><strong>Answer: </strong>{answer}</p>}
                 { relevant !== "" && <p className="Midpage-response" id="relevant"><strong>Relevant text: </strong>{relevant}</p>}
