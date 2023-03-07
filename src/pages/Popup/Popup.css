@@ -5,7 +5,7 @@
   left: 0px;
   right: 0px;
   text-align: center;
-  height: 120%;
+  height: 100%;
   padding: 10px;
   background-color: #ffffff;
   font-family: 'Inter';
@@ -48,18 +48,20 @@
 .Midpage-response {
   justify-content: flex-start;
   margin-left: 10px;
-  font-family: 'Inter';
+  font-family: 'inherit';
 }
 
 .User-input {
   border: 3px solid #ccc;
   border-radius: 6px;
   overflow: hidden;
-  height: 20%;
+  height: 35%;
+  font-family: inherit;
 }
 
 .Submit-button {
   margin-top: 5px;
+  margin-bottom: 0px;
   border-radius: 6px;
   background-color: #000000; /* Green */
   border: none;
@@ -68,7 +70,7 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-family: 'Inter';
+  font-family: 'inherit';
   font-size: 16px;
   width: fit-content;
 }

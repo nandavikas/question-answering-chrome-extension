@@ -10,7 +10,9 @@ const Popup = () => {
     console.log("Hello from popup");
 
     const onClickSubmit = async (event) => {
+        event.preventDefault();
         // Open up connection with content script
+        console.log("Connecting to content script...")
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             const activeTab = tabs[0];
             console.log("Active tab: ", activeTab.id);
@@ -19,7 +21,7 @@ const Popup = () => {
             });
 
             port.postMessage({
-                class: "plaintext",
+                divId: "opinion-content",
                 tabId: activeTab.id
             });
 
@@ -53,6 +55,7 @@ const Popup = () => {
                             answerData = answerData.replace("Answer: ", "");
                             port.postMessage({
                                 answer: { ...response.data.snippet, document},
+                                relevantText: relevantData,
                                 tabId: activeTab.id
                             });
                             setAnswer(answerData)
@@ -71,10 +74,11 @@ const Popup = () => {
 
     return (
         <div className="App">
-            {/*<p className="Midpage-response"><strong>Midpage.ai</strong></p>*/}
             <img src="https://uploads-ssl.webflow.com/63243fca0c3f22499600fd48/63dd206afa80fe9af8d5f1b6_Midpage%20logo.png" className="Extension-header" alt="midpage.ai"/>
-            <textarea className="User-input" id="user-query" name="query" rows="4" cols="30" ref={inputRef}/>
-            <button className="Submit-button" id="submit" onClick={onClickSubmit}>Submit</button>
+            <form onSubmit={onClickSubmit}>
+                <textarea className="User-input" id="user-query" name="query" rows="4" cols="30" ref={inputRef}/>
+                <button className="Submit-button" id="submit" type="submit">Submit</button>
+            </form>
             <div className="Response-container">
                 { answer !== "" && <p className="Midpage-response" id="answer"><strong>Answer: </strong>{answer}</p>}
                 { relevant !== "" && <p className="Midpage-response" id="relevant"><strong>Relevant text: </strong>{relevant}</p>}
