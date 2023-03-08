@@ -16,6 +16,12 @@ chrome.runtime.onConnect.addListener(function (port) {
       if (msg.tabId) {
         const idToQuery = msg.divId;
         const text = document.getElementById(idToQuery);
+
+        // If already a relevant text is highlighted, remove it
+        if (msg.document) {
+          text.innerHTML = msg.document;
+        }
+
         port.postMessage({
           text: text.innerHTML,
         });
@@ -27,9 +33,9 @@ chrome.runtime.onConnect.addListener(function (port) {
         const highlightedText = document.getElementById('midpage-relevant-response');
         highlightedText.scrollIntoView();
         setTimeout(() => {
-          highlightedText.style.backgroundColor = "white";
-        }, 10*1000)
-        console.log("Texts innerHTML after:", text.innerHTML.slice(start, end+1));
+          text.innerHTML = msg.answer.document;
+          console.log("Texts innerHTML after:", text.innerHTML.slice(start, end+1));
+        }, 30*1000)
       }
     }
   });
