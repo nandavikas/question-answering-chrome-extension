@@ -65,8 +65,8 @@ const Popup = () => {
                                 relevantText: relevantData,
                             });
                             setLoading(false);
-                            setAnswer(answerData)
-                            setRelevant(relevantData)
+                            setAnswer("\n" + answerData)
+                            setRelevant("\n" + relevantData)
                         })
                         .catch(function (error) {
                             setLoading(false);
@@ -96,8 +96,8 @@ const Popup = () => {
                 </div>
             </div>)}
             <div className="Response-container">
-                { answer !== "" && <p className="Midpage-response" id="answer"><strong>Answer: </strong>{answer}</p>}
-                { relevant !== "" && <p className="Midpage-response" id="relevant"><strong>Relevant Section: </strong>{relevant}</p>}
+                { answer !== "" && (<p className="Midpage-response" id="answer"><span><strong>Answer: </strong></span><br/>{answer}</p>)}
+                { relevant !== "" && (<p className="Midpage-response" id="relevant"><span><strong>Relevant Section: </strong></span><br/>{relevant}</p>)}
             </div>
         </div>
       );
