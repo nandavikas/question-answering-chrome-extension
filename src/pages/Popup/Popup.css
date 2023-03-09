@@ -58,6 +58,7 @@
   border-radius: 6px;
   overflow: hidden;
   height: 35%;
+  max-width: 80%;
   font-family: Inter;
 }
 
