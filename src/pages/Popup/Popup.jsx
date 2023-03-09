@@ -8,7 +8,7 @@ const Popup = () => {
     const cookieRef = useRef();
     const [answer, setAnswer] = useState("")
     // const [relevant, setRelevant] = useState("")
-    const [loading, setLoading] = useState(false)
+    // const [loading, setLoading] = useState(false)
     const [document, setDocument] = useState("")
     const [openSettings, setOpenSettings] = useState(false)
 
@@ -47,7 +47,7 @@ const Popup = () => {
 
     const onClickSubmit = async (event) => {
         event.preventDefault();
-        setLoading(true)
+        // setLoading(true)
         setAnswer("")
         // setRelevant("")
         // Open up connection with content script
@@ -105,12 +105,12 @@ const Popup = () => {
                                 document,
                                 ...response.data
                             });
-                            setLoading(false);
+                            // setLoading(false);
                             setAnswer("\n" + response.data.answer)
                             // setRelevant("\n" + response.data.relevant_text)
                         })
                         .catch(function (error) {
-                            setLoading(false);
+                            // setLoading(false);
                             setAnswer("Sorry, we couldn't find an answer to your question.")
                             console.log(error);
                         });
@@ -132,13 +132,16 @@ const Popup = () => {
                 <textarea className="User-input" id="user-query" name="query" rows="4" cols="30" onKeyDown={onKeyDown} ref={inputRef}/>
                 <button className="Submit-button" id="submit" type="submit">Submit</button>
             </form>
-            { loading && (<div className="ticontainer">
-                <div className="tiblock">
-                    <div className="tidot"></div>
-                    <div className="tidot"></div>
-                    <div className="tidot"></div>
-                </div>
-            </div>)}
+
+            {/*    Commenting loading animation temporarily */}
+            {/*{ loading && (<div className="ticontainer">*/}
+            {/*    <div className="tiblock">*/}
+            {/*        <div className="tidot"></div>*/}
+            {/*        <div className="tidot"></div>*/}
+            {/*        <div className="tidot"></div>*/}
+            {/*    </div>*/}
+            {/*</div>)}*/}
+
             <div className="Response-container">
                 { answer !== "" && (<p className="Midpage-response" id="answer"><span><strong>Answer: </strong></span><br/>{answer}</p>)}
                 {/*{ relevant !== "" && (<p className="Midpage-response" id="relevant"><span><strong>Relevant Section: </strong></span><br/>{relevant}</p>)}*/}
