@@ -7,7 +7,7 @@ const Popup = () => {
     const inputRef = useRef();
     const cookieRef = useRef();
     const [answer, setAnswer] = useState("")
-    const [relevant, setRelevant] = useState("")
+    // const [relevant, setRelevant] = useState("")
     const [loading, setLoading] = useState(false)
     const [document, setDocument] = useState("")
     const [openSettings, setOpenSettings] = useState(false)
@@ -21,11 +21,21 @@ const Popup = () => {
     }
 
     const onClickSave = () => {
-        localStorage.setItem("apiEndpoint", cookieRef.current.value);
+        const apiEndpoint = cookieRef.current.value;
+        console.log("onClickSave", apiEndpoint);
+        localStorage.setItem("apiEndpoint", apiEndpoint);
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            const activeTab = tabs[0];
+            const port = chrome.tabs.connect(activeTab.id, {
+                name: "cookie"
+            });
+            console.log("Sending api endpoint to content script", apiEndpoint);
+            port.postMessage({ apiEndpoint });
+        });
         setAnswer("")
-        setRelevant("")
+        // setRelevant("")
         setOpenSettings(!openSettings)
-    }
+        }
 
     const onKeyDown = (event) => {
         if (event.key === 'Enter') {
@@ -39,7 +49,7 @@ const Popup = () => {
         event.preventDefault();
         setLoading(true)
         setAnswer("")
-        setRelevant("")
+        // setRelevant("")
         // Open up connection with content script
         console.log("Connecting to content script...")
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -75,7 +85,7 @@ const Popup = () => {
                         document
                     });
 
-                    const API_ENDPOINT = localStorage.getItem("apiEndpoint") || "https://3422-34-28-101-179.ngrok.io/predict/question/";
+                    const API_ENDPOINT = `${localStorage.getItem("apiEndpoint")}/predict/question/` || "https://3422-34-28-101-179.ngrok.io/predict/question/";
                     const config = {
                         method: 'post',
                         maxBodyLength: Infinity,
@@ -97,7 +107,7 @@ const Popup = () => {
                             });
                             setLoading(false);
                             setAnswer("\n" + response.data.answer)
-                            setRelevant("\n" + response.data.relevant_text)
+                            // setRelevant("\n" + response.data.relevant_text)
                         })
                         .catch(function (error) {
                             setLoading(false);
@@ -131,12 +141,13 @@ const Popup = () => {
             </div>)}
             <div className="Response-container">
                 { answer !== "" && (<p className="Midpage-response" id="answer"><span><strong>Answer: </strong></span><br/>{answer}</p>)}
-                { relevant !== "" && (<p className="Midpage-response" id="relevant"><span><strong>Relevant Section: </strong></span><br/>{relevant}</p>)}
+                {/*{ relevant !== "" && (<p className="Midpage-response" id="relevant"><span><strong>Relevant Section: </strong></span><br/>{relevant}</p>)}*/}
             </div>
             </>}
             {openSettings && <div className="Settings-container">
                 <input type="text" id="apiUrl" className="Api-endpoint" name="apiUrl" ref={cookieRef} placeholder="API endpoint"/>
                 <button className="Submit-button" id="submit" type="submit" onClick={onClickSave}>Save</button>
+                <p className="Settings-text">Example: https://3422-34-28-101-179.ngrok.io</p>
             </div>}
         </div>
       );

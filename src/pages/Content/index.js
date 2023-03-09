@@ -3,15 +3,44 @@ console.log('Content script works!');
 console.log('Must reload extension for modifications to take effect.');
 
 window.onload = function () {
-  console.log('Page loaded');
-  const text = document.getElementById("opinion-content");
-  // console.log("Texts: \n", text.innerHTML);
-  // call API to send text to backend
+  const API_ENDPOINT = localStorage.getItem('apiEndpoint')
+  console.log('Page loaded', API_ENDPOINT);
+  const currentUrl = window.location.href;
+  if (currentUrl.includes("courtlistener.com") || currentUrl.includes("casetext.com")) {
+    const divId = currentUrl.includes("courtlistener.com") ? "opinion-content" : "caseBodyHtml"
+    const text = document.getElementById(divId);
+    // console.log(`Text from if condition with divId ${divId}:`, text.innerHTML);
+    const myHeaders = new Headers();
+    myHeaders.append("accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      "document": text.innerHTML
+    });
+
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch(`${API_ENDPOINT}/index_document`, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log("Indexing API result :::::", result))
+        .catch(error => console.log('error', error));
+  }
 }
 
 chrome.runtime.onConnect.addListener(function (port) {
   port.onMessage.addListener(function (msg) {
     console.log("Message received in Content Script::", msg);
+
+    if (port.name == 'cookie') {
+      console.log("Cookie received in Content Script::", msg.apiEndpoint)
+      localStorage.setItem('apiEndpoint', msg.apiEndpoint)
+    }
+
     if (port.name === "midpage") {
       if (msg.tabId) {
         const idToQuery = msg.divId;
