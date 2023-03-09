@@ -27,6 +27,14 @@ const Popup = () => {
         setOpenSettings(!openSettings)
     }
 
+    const onKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            event.stopPropagation();
+            onClickSubmit(event);
+        }
+    }
+
     const onClickSubmit = async (event) => {
         event.preventDefault();
         setLoading(true)
@@ -111,7 +119,7 @@ const Popup = () => {
             <img src="https://uploads-ssl.webflow.com/63243fca0c3f22499600fd48/63dd206afa80fe9af8d5f1b6_Midpage%20logo.png" className="Extension-header" alt="midpage.ai"/>
             {!openSettings && <>
             <form onSubmit={onClickSubmit}>
-                <textarea className="User-input" id="user-query" name="query" rows="4" cols="30" ref={inputRef}/>
+                <textarea className="User-input" id="user-query" name="query" rows="4" cols="30" onKeyDown={onKeyDown} ref={inputRef}/>
                 <button className="Submit-button" id="submit" type="submit">Submit</button>
             </form>
             { loading && (<div className="ticontainer">
