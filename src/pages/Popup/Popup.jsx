@@ -82,17 +82,13 @@ const Popup = () => {
                     axios(config)
                         .then(function (response) {
                             console.log("API Response", response.data);
-                            let answerData = response.data.answer.split("Relevant text:")[0];
-                            const relevantData = response.data.answer.split("Relevant text:")[1];
-                            answerData = answerData.replace("Answer: ", "");
                             port.postMessage({
                                 divId,
-                                answer: { ...response.data.snippet, document},
-                                relevantText: relevantData,
+                                ...response.data
                             });
                             setLoading(false);
-                            setAnswer("\n" + answerData)
-                            setRelevant("\n" + relevantData)
+                            setAnswer("\n" + response.data.answer)
+                            setRelevant("\n" + response.data.relevant_text)
                         })
                         .catch(function (error) {
                             setLoading(false);

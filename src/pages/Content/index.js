@@ -27,15 +27,17 @@ chrome.runtime.onConnect.addListener(function (port) {
         });
       } else if (msg.answer) {
         const getStartEnd = (str, sub) => [str.indexOf(sub), str.indexOf(sub) + sub.length - 1]
-        const text = document.getElementById(msg.divId);
-        const [start, end] = getStartEnd(text.innerHTML, msg.answer.text)
-        text.innerHTML = text.innerHTML.slice(0, start) + "<span style='background-color: yellow;' id='midpage-relevant-response'>" + text.innerHTML.slice(start, end+1) + "</span>" + text.innerHTML.slice(end+1)
-        const highlightedText = document.getElementById('midpage-relevant-response');
-        highlightedText.scrollIntoView();
-        setTimeout(() => {
-          text.innerHTML = msg.answer.document;
-          console.log("Texts innerHTML after:", text.innerHTML.slice(start, end+1));
-        }, 30*1000)
+        if (msg.relevant_text.trim() !== "") {
+          const text = document.getElementById(msg.divId);
+          const [start, end] = getStartEnd(text.innerHTML, msg.relevant_text)
+          text.innerHTML = text.innerHTML.slice(0, start) + "<span style='background-color: yellow;' id='midpage-relevant-response'>" + text.innerHTML.slice(start, end+1) + "</span>" + text.innerHTML.slice(end+1)
+          const highlightedText = document.getElementById('midpage-relevant-response');
+          highlightedText.scrollIntoView();
+          setTimeout(() => {
+            text.innerHTML = msg.answer.document;
+            console.log("Texts innerHTML after:", text.innerHTML.slice(start, end+1));
+          }, 30*1000)
+        }
       }
     }
   });
