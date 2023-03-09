@@ -84,6 +84,7 @@ const Popup = () => {
                             console.log("API Response", response.data);
                             port.postMessage({
                                 divId,
+                                document,
                                 ...response.data
                             });
                             setLoading(false);
