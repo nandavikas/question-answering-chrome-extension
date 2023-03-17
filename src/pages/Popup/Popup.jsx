@@ -125,7 +125,7 @@ const Popup = () => {
         <div className="App">
             {!openSettings && <img src="https://www.iconpacks.net/icons/2/free-settings-icon-3110-thumb.png" className="Settings-icon" alt="settings" onClick={onClickSettings}/>}
             {openSettings && <img src="https://cdn-icons-png.flaticon.com/512/93/93634.png" className="Back-icon" alt="settings" onClick={onClickBack}/>}
-            <img src="https://uploads-ssl.webflow.com/63243fca0c3f22499600fd48/63dd206afa80fe9af8d5f1b6_Midpage%20logo.png" className="Extension-header" alt="midpage.ai"/>
+            <img src="https://openclipart.org/image/400px/307415" className="Extension-header" alt="midpage.ai"/>
             {!openSettings && <>
             <form onSubmit={onClickSubmit}>
                 <textarea className="User-input" id="user-query" name="query" rows="4" cols="30" onKeyDown={onKeyDown} ref={inputRef}/>
