@@ -8,7 +8,7 @@ const Popup = () => {
     const cookieRef = useRef();
     const [answer, setAnswer] = useState("")
     // const [relevant, setRelevant] = useState("")
-    // const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [document, setDocument] = useState("")
     const [openSettings, setOpenSettings] = useState(false)
 
@@ -47,7 +47,7 @@ const Popup = () => {
 
     const onClickSubmit = async (event) => {
         event.preventDefault();
-        // setLoading(true)
+        setLoading(true)
         setAnswer("")
         // setRelevant("")
         // Open up connection with content script
@@ -114,7 +114,6 @@ const Popup = () => {
                             setAnswer("Sorry, we couldn't find an answer to your question.")
                             console.log(error);
                         });
-
                 } else {
                     console.log("text does not exist");
                 }
@@ -133,14 +132,13 @@ const Popup = () => {
                 <button className="Submit-button" id="submit" type="submit">Submit</button>
             </form>
 
-            {/*    Commenting loading animation temporarily */}
-            {/*{ loading && (<div className="ticontainer">*/}
-            {/*    <div className="tiblock">*/}
-            {/*        <div className="tidot"></div>*/}
-            {/*        <div className="tidot"></div>*/}
-            {/*        <div className="tidot"></div>*/}
-            {/*    </div>*/}
-            {/*</div>)}*/}
+            { loading && (<div className="ticontainer">
+                <div className="tiblock">
+                    <div className="tidot"></div>
+                    <div className="tidot"></div>
+                    <div className="tidot"></div>
+                </div>
+            </div>)}
 
             <div className="Response-container">
                 { answer !== "" && (<p className="Midpage-response" id="answer"><span><strong>Answer: </strong></span><br/>{answer}</p>)}
